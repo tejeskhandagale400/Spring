@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<!-- The below tag is for Annotation - Comment Bean tags to use Annotation -->
+	<!-- <context:component-scan base-package="com.capgemini.app"/> -->
+
+	<util:list id="boardMemberList" value-type="java.lang.String">
+		<value>Tejas</value>
+		<value>Shubham</value>
+	</util:list>
+
+	<util:set id="cities" value-type="java.lang.String">
+		<value>Pune</value>
+		<value>Mumbai</value>
+		<value>Alibaug</value>
+	</util:set>
+
+	<util:map id="managers">
+		<entry key="key1">
+			<value>Amit</value>
+		</entry>
+		<entry key="key2">
+			<value>Sharad</value>
+		</entry>
+	</util:map>
+
+  
+ <context:property-placeholder location="classpath:Ip_Address.properties"/>
+	<bean id="organization"
+		class="com.capgemini.app.bean.Organization">
+		<property name="boardMembers" ref="boardMemberList"></property>
+		<property name="branchManagers" ref="managers"></property>
+		<property name="cities" ref="cities"></property>
+		
+		<property name="dateOfEstablishment" >
+		 <bean class = "java.time.LocalDate" factory-method = "now"></bean>
+		</property> 
+		 <property name="ipAddresses" value="${IP}" > </property> 
+		<property name="listed" value="true"></property>
+		<property name="name" value="Capgemini"></property>
+		<property name="orgId" value="111"></property>
+		<property name="shareValue" value="95"></property>
+		
+	</bean>
+
+	<bean id="helloWorld" class="com.capgemini.app.bean.HelloWorld"
+		scope="singleton">
+
+	</bean>
+	<bean id="organization2"
+		class="com.capgemini.app.bean.Organization">
+		<!-- <constructor-arg value=""/> <constructor-arg ref=""/> -->
+	</bean>
+
+</beans>
+
+
+
+
+
