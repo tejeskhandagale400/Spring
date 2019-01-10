@@ -16,6 +16,7 @@ import com.capgemini.mmbank.exception.AccountNotFoundException;
 import com.capgemini.mmbank.exception.InsufficientFundsException;
 import com.capgemini.mmbank.exception.InvalidInputException;
 import com.capgemini.mmbank.factory.AccountFactory;
+import com.capgemini.mmbank.validation.MMBankappValidation;
 
 @Service
 public class SavingsAccountServiceImpl implements SavingsAccountService {
@@ -54,16 +55,18 @@ public class SavingsAccountServiceImpl implements SavingsAccountService {
 	@Transactional
 	public void withdraw(SavingsAccount account, double amount) {
 		double currentBalance = account.getBankAccount().getAccountBalance();
-		currentBalance -= amount;
-		savingsAccountDAO.updateBalance(account.getBankAccount().getAccountNumber(), currentBalance);
-
+		if (currentBalance >= amount) {
+			currentBalance -= amount;
+			savingsAccountDAO.updateBalance(account.getBankAccount().getAccountNumber(), currentBalance);
+		} else
+			throw new InsufficientFundsException("Insufficient Funds!");
 	}
 
 	@Transactional
-	public void fundTransfer(SavingsAccount sender, SavingsAccount receiver, double amount) {
+	public void fundTransfer(SavingsAccount sender, SavingsAccount receiver, double amount) throws InsufficientFundsException{
 
-		deposit(receiver, amount);
-		withdraw(sender, amount);
+		this.deposit(receiver, amount);
+		this.withdraw(sender, amount);
 
 	}
 

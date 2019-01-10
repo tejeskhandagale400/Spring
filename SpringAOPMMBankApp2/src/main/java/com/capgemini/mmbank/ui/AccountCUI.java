@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.capgemini.mmbank.account.CurrentAccount;
 import com.capgemini.mmbank.account.SavingsAccount;
 import com.capgemini.mmbank.exception.AccountNotFoundException;
+import com.capgemini.mmbank.exception.InsufficientFundsException;
 import com.capgemini.mmbank.service.CurrentAccountService;
 import com.capgemini.mmbank.service.CurrentAccountServiceImpl;
 import com.capgemini.mmbank.service.SavingsAccountService;
@@ -218,7 +219,7 @@ public class AccountCUI {
 				senderSavingsAccount = savingsAccountService.getAccountById(senderAccountNumber);
 				SavingsAccount receiverSavingsAccount = savingsAccountService.getAccountById(receiverAccountNumber);
 				savingsAccountService.fundTransfer(senderSavingsAccount, receiverSavingsAccount, amount);
-			} catch (AccountNotFoundException e) {
+			} catch (AccountNotFoundException | InsufficientFundsException e) {
  				e.printStackTrace();
 			}
 		
